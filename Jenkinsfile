@@ -15,11 +15,11 @@ pipeline {
     }
 
     stages {
-        stage('Login to ACR') {
+       stage('Login to ACR') {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'ACR_PASSWORD', variable: 'ACR_PASS')]) {
-                        sh "az acr login --name ${ACR_NAME}"
+                        sh "az acr login --name ${ACR_NAME} --username ${ACR_NAME} --password ${ACR_PASS}"
                     }
                 }
             }
