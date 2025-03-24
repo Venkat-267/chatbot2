@@ -1,6 +1,6 @@
-variable "resource_group" { default = "myResourceGroup" }
-variable "location" { default = "East US" }
-variable "aci_name" { default = "nginx-container" }
+variable "resource_group" { default = "my-frontend-container" }
+variable "location" { default = "Central India" }
+variable "aci_name" { default = "chaty/hello-world" }
 variable "image_name" { default = "nginx-frontend" }
 variable "image_version" { default = "latest" }
 variable "cpu_count" { default = "1" }
