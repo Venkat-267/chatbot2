@@ -1,5 +1,6 @@
 provider "azurerm" {
-  features {}
+  features {  }
+  subscription_id = "d7ebd1a3-506e-4870-b872-38bf70130d51"
 }
 
 resource "azurerm_container_group" "aci" {
