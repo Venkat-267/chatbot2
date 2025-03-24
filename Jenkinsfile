@@ -63,7 +63,7 @@ pipeline {
                         export ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
                         export ARM_SUBSCRIPTION_ID="d7ebd1a3-506e-4870-b872-38bf70130d51"
                         export ARM_TENANT_ID="cf8f9cba-67c5-46b4-9dcb-d8d142f7e567"
-                        export acr_password = "$acr_password"
+                        export acr_password="$acr_password"
 
                         terraform init
                         terraform validate
