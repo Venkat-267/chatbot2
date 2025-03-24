@@ -15,11 +15,11 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/Venkat-267/chatbot2.git'
-            }
-        }
+        // stage('Checkout Code') {
+        //     steps {
+        //         git 'https://github.com/Venkat-267/chatbot2.git'
+        //     }
+        // }
 
         stage('Login to ACR') {
             steps {
