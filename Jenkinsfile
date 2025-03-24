@@ -51,7 +51,6 @@ pipeline {
                 script {
                     withCredentials([azureServicePrincipal('AZURE_CREDENTIALS')]) {
                         sh """
-                        cd terraform
                         terraform init
                         terraform apply -auto-approve
                         """
