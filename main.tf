@@ -1,5 +1,5 @@
 provider "azurerm" {
-  features {  }
+  features {}
   subscription_id = "d7ebd1a3-506e-4870-b872-38bf70130d51"
 }
 
@@ -8,8 +8,10 @@ resource "azurerm_container_group" "aci" {
   location            = var.location
   resource_group_name = var.resource_group
 
-  os_type            = "Linux"
-  restart_policy     = "Always"
+  os_type        = "Linux"
+  restart_policy = "Always"
+
+  dns_name_label = var.dns_name_label  # Publicly accessible DNS
 
   container {
     name   = var.aci_name

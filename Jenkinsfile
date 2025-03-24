@@ -72,37 +72,5 @@ pipeline {
                 }
             }
         }
-
-stage('Deploy ACI using CLI') {
-    steps {
-        script {
-            withCredentials([
-                string(credentialsId: 'AZURE_CLIENT_ID', variable: 'ARM_CLIENT_ID'),
-                string(credentialsId: 'ARM_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET'),
-                string(credentialsId: 'ACR_PASSWORD', variable: 'ACR_PASS')
-            ]) {
-                sh '''
-                az login --service-principal -u "$ARM_CLIENT_ID" -p "$ARM_CLIENT_SECRET" --tenant "cf8f9cba-67c5-46b4-9dcb-d8d142f7e567"
-
-                az container create \
-                    --resource-group ${RESOURCE_GROUP} \
-                    --name ${ACI_NAME} \
-                    --image ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION} \
-                    --cpu ${CPU_COUNT} \
-                    --memory ${MEMORY_GB} \
-                    --registry-login-server ${ACR_LOGIN_SERVER} \
-                    --registry-username ${ACR_NAME} \
-                    --registry-password "${ACR_PASS}" \
-                    --dns-name-label ${DNS_LABEL} \
-                    --ports ${PORT_NUMBER} \
-                    --os-type Linux
-
-                docker logout ${ACR_LOGIN_SERVER}
-                '''
-            }
-        }
-    }
-}
-
     }
 }
