@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/YOUR-USERNAME/YOUR-REPO.git'
+                git 'https://github.com/Venkat-267/chatbot2.git'
             }
         }
 
