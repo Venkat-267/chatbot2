@@ -66,7 +66,7 @@ pipeline {
 
                         terraform init
                         terraform validate
-                        terraform apply -auto-approve -var="acr_password="$acr_password""
+                        terraform apply -auto-approve -var="acr_password=$acr_password"
                         '''
                     }
                 }
