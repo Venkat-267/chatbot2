@@ -15,12 +15,6 @@ pipeline {
     }
 
     stages {
-        // stage('Checkout Code') {
-        //     steps {
-        //         git 'https://github.com/Venkat-267/chatbot2.git'
-        //     }
-        // }
-
         stage('Login to ACR') {
             steps {
                 script {
@@ -35,8 +29,8 @@ pipeline {
             steps {
                 script {
                     sh """
-                    docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} .
-                    docker tag ${IMAGE_NAME}:${IMAGE_VERSION} ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION}
+                    sudo docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} .
+                    sudo docker tag ${IMAGE_NAME}:${IMAGE_VERSION} ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION}
                     """
                 }
             }
@@ -45,7 +39,7 @@ pipeline {
         stage('Push Image to ACR') {
             steps {
                 script {
-                    sh "docker push ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION}"
+                    sh "sudo docker push ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION}"
                 }
             }
         }
@@ -90,7 +84,7 @@ pipeline {
 
     post {
         always {
-            sh "docker logout ${ACR_LOGIN_SERVER}"
+            sh "sudo docker logout ${ACR_LOGIN_SERVER}"
         }
     }
 }
