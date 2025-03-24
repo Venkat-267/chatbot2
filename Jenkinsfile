@@ -89,7 +89,10 @@ pipeline {
 
     post {
         always {
-            sh "docker logout ${ACR_LOGIN_SERVER}"
+            script {
+                sh "docker logout chatyregistry.azurecr.io"
+            }
         }
     }
+
 }
