@@ -13,7 +13,7 @@ pipeline {
         PORT_NUMBER = "80"
         DNS_LABEL = "chatbot"
         ARM_CLIENT_ID = credentials('AZURE_CLIENT_ID')
-        ARM_CLIENT_SECRET = credentials('AZURE_CLIENT_SECRET')
+        ARM_CLIENT_SECRET = credentials('ARM_CLIENT_SECRET')
         ARM_SUBSCRIPTION_ID = "d7ebd1a3-506e-4870-b872-38bf70130d51"
         ARM_TENANT_ID = "cf8f9cba-67c5-46b4-9dcb-d8d142f7e567"
     }
@@ -55,7 +55,7 @@ pipeline {
                 script {
                     withCredentials([
                         string(credentialsId: 'AZURE_CLIENT_ID', variable: 'ARM_CLIENT_ID'),
-                        string(credentialsId: 'AZURE_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET')
+                        string(credentialsId: 'ARM_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET')
                     ]) {
                         sh '''
                         export ARM_CLIENT_ID="$ARM_CLIENT_ID"
@@ -77,7 +77,7 @@ stage('Deploy ACI using CLI') {
         script {
             withCredentials([
                 string(credentialsId: 'AZURE_CLIENT_ID', variable: 'ARM_CLIENT_ID'),
-                string(credentialsId: 'AZURE_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET'),
+                string(credentialsId: 'ARM_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET'),
                 string(credentialsId: 'ACR_PASSWORD', variable: 'ACR_PASS')
             ]) {
                 sh '''
