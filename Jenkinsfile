@@ -55,7 +55,6 @@ pipeline {
             steps {
                 script {
                         sh '''
-                        cd ${WORKSPACE}  # Ensure we are at the root of the cloned repo
                         ls -lah          # Debug: Check if Terraform files are present
                         terraform init
                         terraform validate
