@@ -53,38 +53,55 @@ pipeline {
         stage('Deploy to ACI using Terraform') {
             steps {
                 script {
+                    withCredentials([
+                        string(credentialsId: 'AZURE_CLIENT_ID', variable: 'ARM_CLIENT_ID'),
+                        string(credentialsId: 'AZURE_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET')
+                    ]) {
                         sh '''
-                        ls -lah          # Debug: Check if Terraform files are present
+                        export ARM_CLIENT_ID="$ARM_CLIENT_ID"
+                        export ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
+                        export ARM_SUBSCRIPTION_ID="d7ebd1a3-506e-4870-b872-38bf70130d51"
+                        export ARM_TENANT_ID="cf8f9cba-67c5-46b4-9dcb-d8d142f7e567"
+
                         terraform init
                         terraform validate
                         terraform apply -auto-approve
                         '''
                     }
-            }
-        }
-
-        stage('Deploy ACI using CLI') {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'ACR_PASSWORD', variable: 'ACR_PASS')]) {
-                        sh """
-                        az container create \\
-                            --resource-group ${RESOURCE_GROUP} \\
-                            --name ${ACI_NAME} \\
-                            --image ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION} \\
-                            --cpu ${CPU_COUNT} \\
-                            --memory ${MEMORY_GB} \\
-                            --registry-login-server ${ACR_LOGIN_SERVER} \\
-                            --registry-username ${ACR_NAME} \\
-                            --registry-password "${ACR_PASS}" \\
-                            --dns-name-label ${DNS_LABEL} \\
-                            --ports ${PORT_NUMBER} \\
-                            --os-type Linux
-                        """
-                        sh "docker logout ${ACR_LOGIN_SERVER}"
-                    }
                 }
             }
         }
+
+stage('Deploy ACI using CLI') {
+    steps {
+        script {
+            withCredentials([
+                string(credentialsId: 'AZURE_CLIENT_ID', variable: 'ARM_CLIENT_ID'),
+                string(credentialsId: 'AZURE_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET'),
+                string(credentialsId: 'ACR_PASSWORD', variable: 'ACR_PASS')
+            ]) {
+                sh '''
+                az login --service-principal -u "$ARM_CLIENT_ID" -p "$ARM_CLIENT_SECRET" --tenant "cf8f9cba-67c5-46b4-9dcb-d8d142f7e567"
+
+                az container create \
+                    --resource-group ${RESOURCE_GROUP} \
+                    --name ${ACI_NAME} \
+                    --image ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION} \
+                    --cpu ${CPU_COUNT} \
+                    --memory ${MEMORY_GB} \
+                    --registry-login-server ${ACR_LOGIN_SERVER} \
+                    --registry-username ${ACR_NAME} \
+                    --registry-password "${ACR_PASS}" \
+                    --dns-name-label ${DNS_LABEL} \
+                    --ports ${PORT_NUMBER} \
+                    --os-type Linux
+
+                docker logout ${ACR_LOGIN_SERVER}
+                '''
+            }
+        }
+    }
+}
+
     }
 }
