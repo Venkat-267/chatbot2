@@ -15,6 +15,12 @@ pipeline {
     }
 
     stages {
+        stage('Checkout Code') {
+            steps {
+                git 'https://github.com/YOUR-USERNAME/YOUR-REPO.git'
+            }
+        }
+
         stage('Login to ACR') {
             steps {
                 script {
@@ -25,12 +31,12 @@ pipeline {
             }
         }
 
-        stage('Pull & Tag Docker Image') {
+        stage('Build & Tag Docker Image') {
             steps {
                 script {
                     sh """
-                    docker pull mcr.microsoft.com/mcr/hello-world
-                    docker tag mcr.microsoft.com/mcr/hello-world ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION}
+                    docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} .
+                    docker tag ${IMAGE_NAME}:${IMAGE_VERSION} ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION}
                     """
                 }
             }
