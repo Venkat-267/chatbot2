@@ -50,10 +50,13 @@ pipeline {
             steps {
                 script {
                     withCredentials([azureServicePrincipal('AZURE_CREDENTIALS')]) {
-                        sh """
+                        sh '''
+                        cd ${WORKSPACE}  # Ensure we are at the root of the cloned repo
+                        ls -lah          # Debug: Check if Terraform files are present
                         terraform init
+                        terraform validate
                         terraform apply -auto-approve
-                        """
+                        '''
                     }
                 }
             }
