@@ -31,8 +31,8 @@ pipeline {
             steps {
                 script {
                     sh """
-                    sudo docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} .
-                    sudo docker tag ${IMAGE_NAME}:${IMAGE_VERSION} ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION}
+                    docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} .
+                    docker tag ${IMAGE_NAME}:${IMAGE_VERSION} ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION}
                     """
                 }
             }
@@ -41,7 +41,7 @@ pipeline {
         stage('Push Image to ACR') {
             steps {
                 script {
-                    sh "sudo docker push ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION}"
+                    sh "docker push ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_VERSION}"
                 }
             }
         }
@@ -86,7 +86,7 @@ pipeline {
 
     post {
         always {
-            sh "sudo docker logout ${ACR_LOGIN_SERVER}"
+            sh "docker logout ${ACR_LOGIN_SERVER}"
         }
     }
 }
