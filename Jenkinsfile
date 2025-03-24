@@ -19,7 +19,9 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'ACR_PASSWORD', variable: 'ACR_PASS')]) {
-                        sh "az acr login --name ${ACR_NAME} --username ${ACR_NAME} --password ${ACR_PASS}"
+                        sh '''
+                        az acr login --name $ACR_NAME --username $ACR_NAME --password "$ACR_PASS"
+                        '''
                     }
                 }
             }
