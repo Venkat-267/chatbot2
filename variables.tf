@@ -1,7 +1,7 @@
 variable "resource_group" { default = "my-frontend-container" }
 variable "location" { default = "Central India" }
-variable "aci_name" { default = "chaty/hello-world" }
-variable "image_name" { default = "nginx-frontend" }
+variable "aci_name" { default = "chatyhello-world" }
+variable "image_name" { default = "chaty/hello-world" }
 variable "image_version" { default = "latest" }
 variable "cpu_count" { default = "1" }
 variable "memory_gb" { default = "2" }

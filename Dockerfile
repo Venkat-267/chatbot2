@@ -1,16 +1,10 @@
-# Use Nginx as a base image
+# Use the official Nginx image as base
 FROM nginx:latest
 
-# Remove default Nginx config
-RUN rm /etc/nginx/conf.d/default.conf
+# Remove default Nginx index page and copy your HTML file
+COPY mainpage.html /usr/share/nginx/html/index.html
 
-# Copy your custom Nginx config
-COPY nginx.conf /etc/nginx/conf.d/
-
-# Copy your frontend files (HTML, CSS, JS) to the web root
-COPY . /usr/share/nginx/html
-
-# Expose port 80 for the web server
+# Expose port 80 to allow external access
 EXPOSE 80
 
 # Start Nginx
