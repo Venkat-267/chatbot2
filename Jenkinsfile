@@ -12,6 +12,11 @@ pipeline {
         MEMORY_GB = "2.5"
         PORT_NUMBER = "80"
         DNS_LABEL = "chatbot"
+        ARM_CLIENT_ID = credentials('AZURE_CLIENT_ID')
+        ARM_CLIENT_SECRET = credentials('AZURE_CLIENT_SECRET')
+        ARM_SUBSCRIPTION_ID = "d7ebd1a3-506e-4870-b872-38bf70130d51"
+        ARM_TENANT_ID = "cf8f9cba-67c5-46b4-9dcb-d8d142f7e567"
+    }
     }
 
     stages {
@@ -49,7 +54,6 @@ pipeline {
         stage('Deploy to ACI using Terraform') {
             steps {
                 script {
-                    withCredentials([azureServicePrincipal('AZURE_CREDENTIALS')]) {
                         sh '''
                         cd ${WORKSPACE}  # Ensure we are at the root of the cloned repo
                         ls -lah          # Debug: Check if Terraform files are present
