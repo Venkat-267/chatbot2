@@ -81,18 +81,10 @@ pipeline {
                             --ports ${PORT_NUMBER} \\
                             --os-type Linux
                         """
+                        sh "docker logout ${ACR_LOGIN_SERVER}"
                     }
                 }
             }
         }
     }
-
-    post {
-        always {
-            script {
-                sh "docker logout chatyregistry.azurecr.io"
-            }
-        }
-    }
-
 }
